@@ -12,7 +12,7 @@ public class Medico extends Pessoa {
     //construtores da classe
     public Medico(String nome) {
         this.setNome(nome);
-        atualizarCodigo();
+        
     }
 
     public Medico() {

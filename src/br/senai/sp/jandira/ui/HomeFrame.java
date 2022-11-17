@@ -2,11 +2,11 @@ package br.senai.sp.jandira.ui;
 
 import br.senai.sp.jandira.dao.PlanoDeSaudeDAO;
 import br.senai.sp.jandira.dao.EspecialdadaDAO;
+import br.senai.sp.jandira.dao.MedicoDAO;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.imageio.plugins.jpeg.JPEGQTable;
+
 
 public class HomeFrame extends javax.swing.JFrame {
 
@@ -14,6 +14,7 @@ public class HomeFrame extends javax.swing.JFrame {
     JPanel ultimoPanel;
     private PlanosDeSaudePanel planosDeSaudePanel;
     private EspecialidadesPanel especialidadesPanel;
+    private MedicoPanel medicoPanel;
 
     private final int POSICAO_X = 10;
     private final int POSICAO_Y = 180;
@@ -25,6 +26,7 @@ public class HomeFrame extends javax.swing.JFrame {
         initComponents();
         PlanoDeSaudeDAO.lerListaDePlanosDeSaude();
         EspecialdadaDAO.lerListaDeEspecialidade();
+        MedicoDAO.lerListaDeMedicos();
         initPanels();
 
     }
@@ -237,6 +239,7 @@ public class HomeFrame extends javax.swing.JFrame {
 
     private void buttonMedicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMedicosActionPerformed
         alterarCor(buttonMedicos);
+        alterarPanel(medicoPanel);
     }//GEN-LAST:event_buttonMedicosActionPerformed
 
 //   medoto para altera a cor e avisibilidade do painel!!
@@ -295,7 +298,9 @@ public class HomeFrame extends javax.swing.JFrame {
 
         planosDeSaudePanel = new PlanosDeSaudePanel();
         especialidadesPanel = new EspecialidadesPanel();
+        medicoPanel = new MedicoPanel();
 
+        
         planosDeSaudePanel.setBounds(
                 POSICAO_X, POSICAO_Y,
                 LARGURA, ALTURA);
@@ -303,10 +308,21 @@ public class HomeFrame extends javax.swing.JFrame {
         getContentPane().add(planosDeSaudePanel);
         planosDeSaudePanel.setVisible(false);
 
-        especialidadesPanel.setBounds(POSICAO_X, POSICAO_Y, LARGURA, ALTURA);
+        especialidadesPanel.setBounds(
+                
+                POSICAO_X, POSICAO_Y, 
+                LARGURA, ALTURA);
+        
         getContentPane().add(especialidadesPanel);
         especialidadesPanel.setVisible(false);
+        
+        medicoPanel.setBounds(
+                
+                POSICAO_X, POSICAO_Y, 
+                LARGURA, ALTURA);
 
+        getContentPane().add(medicoPanel);
+        medicoPanel.setVisible(false);
     }
 
 }

@@ -16,6 +16,20 @@ public class MedicoPanel extends javax.swing.JPanel {
         criarTabelaMedico();
 
     }
+    private void excluir() {
+       int resposta = JOptionPane.showConfirmDialog(
+               this,
+               "Você confirma a exclusão da Especialidade selecionada?",
+                "Especialidade",
+               JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (resposta == 0) {
+           MedicoDAO.excluir(getCodigo());
+           criarTabelaMedico();
+        }
+
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -93,57 +107,41 @@ public class MedicoPanel extends javax.swing.JPanel {
 
     private void buttonAdicionarMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAdicionarMedicoActionPerformed
 
+        
+        MedicoDialog medicoDialog = new MedicoDialog(null, true, TipoOperacao.ADICIONAR, null);
+        
+        medicoDialog.setVisible(true);
+        criarTabelaMedico();
+        
+        
 
     }//GEN-LAST:event_buttonAdicionarMedicoActionPerformed
 
     private void buttonAlterarMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAlterarMedicoActionPerformed
-//        linha = tableMedico.getSelectedRow();
-//        if (linha != -1) {
-//            editar();
-//
-//        } else {
-//            JOptionPane.showMessageDialog(
-//                    this,
-//                    "Porfavor, selecione a linha!!",
-//                    "Especialidade",
-//                    JOptionPane.WARNING_MESSAGE);
-//        }
-//        private void editar() {
-//        Medico medico = MedicoDAO.getMedico(getCodigo());
-//
-//        EspecialidadeDialog especialidadeDialog = new MedicoDialog(parent, true)
-//                null,
-//                true,
-//                TipoOperacao.ALTERAR,
-//                medico);
-//
-//        especialidadeDialog.setVisible(true);
-//
-//        criarTabelaMedico();
-//
-//    }
+        linha = tableMedico.getSelectedRow();
+        if (linha != -1) {
+            
+
+        } else {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Porfavor, selecione a linha!!",
+                    "Especialidade",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+
+        criarTabelaMedico();
+
+    }
         
-////
-////    private void excluir() {
-////        int resposta = JOptionPane.showConfirmDialog(
-////                this,
-////                "Você confirma a exclusão da Especialidade selecionada?",
-////                "Especialidade",
-////                JOptionPane.YES_NO_OPTION,
-////                JOptionPane.QUESTION_MESSAGE);
-////
-////        if (resposta == 0) {
-////            MedicoDAO.excluir(getCodigo());
-////            criarTabelaMedico();
-////        }
-////
-////    }
-////
-////    private Integer getCodigo() {
-////        String codigoStr = tableMedico.getValueAt(linha, 0).toString();
-////        return Integer.valueOf(codigoStr);
-////
-////
+
+    
+
+    private Integer getCodigo() {
+        String codigoStr = tableMedico.getValueAt(linha, 0).toString();
+        return null;
+
+
     }//GEN-LAST:event_buttonAlterarMedicoActionPerformed
 
     private void buttonExcluirMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExcluirMedicoActionPerformed
@@ -153,15 +151,15 @@ public class MedicoPanel extends javax.swing.JPanel {
 
         // Verificamos se a linha é diferente de -1
         // -1 significa que o usuário não selecionou nada
-//        if (linha != -1) {
-//            excluir();
-//        } else {
-//            JOptionPane.showMessageDialog(this,
-//                    "Por favor, selecione a especialidade  que você deseja excluir!",
-//                    "Especialidade",
-//                    JOptionPane.ERROR_MESSAGE);
-//
-//        }
+        if (linha != -1) {
+            excluir();
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Por favor, selecione a especialidade  que você deseja excluir!",
+                    "Especialidade",
+                    JOptionPane.ERROR_MESSAGE);
+
+        }
     }//GEN-LAST:event_buttonExcluirMedicoActionPerformed
 
 

@@ -20,7 +20,7 @@ public class MedicoDAO extends Pessoa {
     private static ArrayList<Medico> medicos = new ArrayList<>();
 
     private static final String ARQUIVO = "C:\\Users\\22283347\\java\\Medico.txt";
-    private static final String ARQUIVO_TEMP = "C:\\Users\\22283347\\java\\medicoTemp.txt";
+    private static final String ARQUIVO_TEMP = "C:\\Users\\22283347\\java\\MedicoTemp.txt";
     private static final Path PATH = Paths.get(ARQUIVO);
     private static final Path PATH_TEMP = Paths.get(ARQUIVO_TEMP);
 
@@ -162,8 +162,9 @@ public class MedicoDAO extends Pessoa {
         int i = 0;
         for (Medico m : medicos) {
             dados[i][0] = m.getCodigo();
-            dados[i][1] = m.getCrm();
-            dados[i][2] = m.getNome();
+            dados[i][1] = m.getNome();
+            dados[i][2] = m.getCrm();
+          
             i++;
         }
         // Definir um vetor com os nomes das colulas da tabela

@@ -1,30 +1,44 @@
-
 package br.senai.sp.jandira.ui;
 
 import br.senai.sp.jandira.dao.MedicoDAO;
 import br.senai.sp.jandira.model.Medico;
 import br.senai.sp.jandira.model.TipoOperacao;
+import java.time.LocalDate;
+import java.time.temporal.TemporalQueries;
 import javax.swing.JOptionPane;
 
 public class MedicoDialog extends javax.swing.JDialog {
+    
+    private TipoOperacao tipoOperacao;
+    private Medico medico;
 
-   
-    public MedicoDialog(java.awt.Frame parent, boolean modal) {
+    public MedicoDialog(java.awt.Frame parent,
+            boolean modal,
+            TipoOperacao tipoOperacao,
+            Medico medico) {
         super(parent, modal);
         initComponents();
+        this.medico = medico;
+
     }
- private void atualizar() {
-//        Medico.setMedicos(textNomeDoMedico.getText());
-//        Medico.set(textCRM.getText());
-//        if (validarCadastro()) {
-//            PlanoDeSaudeDAO.atualizar(planoDeSaude);
-//            JOptionPane.showMessageDialog(
-//                    null,
-//                    "Plano de saúde atualizado com sucesso!",
-//                    "Plano de Saúde",
-//                    JOptionPane.INFORMATION_MESSAGE);
-//            dispose();
-//        }
+
+    private void atualizar() {
+
+        
+        medico.setCrm(textCRM.getText());
+        medico.setNome(textNomeDoMedico.getText());
+        medico.setEmail(textEmail.getText());
+        
+        if (validarCadastro()) {
+            MedicoDAO.atualizar(medico);
+            
+            JOptionPane.showMessageDialog(
+                    null, 
+                    "Médico atualizado com sucesso", 
+                    "Médico", 
+                    JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+        }
 
     }
 
@@ -33,14 +47,16 @@ public class MedicoDialog extends javax.swing.JDialog {
         Medico medico = new Medico();
         medico.setNome(textNomeDoMedico.getText());
         medico.setCrm(textCRM.getText());
+        medico.setEmail(textEmail.getText());
+        medico.setDataDeNascimento( LocalDate.parse(dataDeNacimentoTextField.getText()));
 
         if (validarCadastro()) {
             MedicoDAO.gravar(medico);
 
             JOptionPane.showMessageDialog(
                     this,
-                    "Plano de saúde gravado com sucesso!",
-                    "Plano de Saúde",
+                    "Médico gravado com sucesso!",
+                    "Médico",
                     JOptionPane.INFORMATION_MESSAGE);
 
             dispose();
@@ -53,7 +69,7 @@ public class MedicoDialog extends javax.swing.JDialog {
 
             JOptionPane.showMessageDialog(
                     this,
-                    "Por favor preencha o nome do(a) médico!",
+                    "Por favor preencha o nome do(a) médico(a)!!!",
                     "Médico",
                     JOptionPane.ERROR_MESSAGE);
 
@@ -80,7 +96,7 @@ public class MedicoDialog extends javax.swing.JDialog {
         return true;
 
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -92,21 +108,21 @@ public class MedicoDialog extends javax.swing.JDialog {
         jLabelNomeDoMedico = new javax.swing.JLabel();
         textNomeDoMedico = new javax.swing.JTextField();
         dataDeNacimento = new javax.swing.JLabel();
-        textDataDeNacimento = new javax.swing.JTextField();
         buttonCancelar = new javax.swing.JButton();
         buttonSalvar = new javax.swing.JButton();
         textCodigo = new javax.swing.JTextField();
         jLabelCodigo = new javax.swing.JLabel();
         listaDeEspecialidadesDoMedico = new javax.swing.JLabel();
         textEmail = new javax.swing.JTextField();
-        textTelefone = new javax.swing.JTextField();
-        telefone = new javax.swing.JLabel();
         jScrollEspecialidades = new javax.swing.JScrollPane();
         jListDeespecialidades = new javax.swing.JList<>();
         email = new javax.swing.JLabel();
         jScrollEspecialidadesDoMedico = new javax.swing.JScrollPane();
         jListDeEspecialidadesDoMedico = new javax.swing.JList<>();
         listaDeEspecialidades = new javax.swing.JLabel();
+        dataDeNacimentoTextField = new javax.swing.JFormattedTextField();
+        buttonDireita = new javax.swing.JButton();
+        buttonEsquerda = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -116,7 +132,7 @@ public class MedicoDialog extends javax.swing.JDialog {
 
         jlabelTitulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jlabelTitulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/senai/sp/jandira/imagens/add32.png"))); // NOI18N
-        jlabelTitulo.setText("Especialidades Medico - NOVO");
+        jlabelTitulo.setText("Adicionar Médico - NOVO");
         jEspecialidade.add(jlabelTitulo);
         jlabelTitulo.setBounds(10, 10, 530, 30);
 
@@ -129,8 +145,6 @@ public class MedicoDialog extends javax.swing.JDialog {
         jLabelCRM.setText("CRM:");
         jPanel2.add(jLabelCRM);
         jLabelCRM.setBounds(170, 50, 60, 16);
-
-        textCRM.setEditable(false);
         jPanel2.add(textCRM);
         textCRM.setBounds(160, 70, 110, 30);
 
@@ -148,15 +162,7 @@ public class MedicoDialog extends javax.swing.JDialog {
 
         dataDeNacimento.setText("Data De Nacimento:");
         jPanel2.add(dataDeNacimento);
-        dataDeNacimento.setBounds(520, 120, 230, 16);
-
-        textDataDeNacimento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textDataDeNacimentoActionPerformed(evt);
-            }
-        });
-        jPanel2.add(textDataDeNacimento);
-        textDataDeNacimento.setBounds(520, 140, 240, 30);
+        dataDeNacimento.setBounds(410, 120, 230, 16);
 
         buttonCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/senai/sp/jandira/imagens/cancel32.png"))); // NOI18N
         buttonCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -192,7 +198,7 @@ public class MedicoDialog extends javax.swing.JDialog {
 
         listaDeEspecialidadesDoMedico.setText("Lista De Especialidades Do Médico");
         jPanel2.add(listaDeEspecialidadesDoMedico);
-        listaDeEspecialidadesDoMedico.setBounds(250, 210, 210, 16);
+        listaDeEspecialidadesDoMedico.setBounds(360, 210, 210, 16);
 
         textEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -200,19 +206,7 @@ public class MedicoDialog extends javax.swing.JDialog {
             }
         });
         jPanel2.add(textEmail);
-        textEmail.setBounds(20, 140, 230, 30);
-
-        textTelefone.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textTelefoneActionPerformed(evt);
-            }
-        });
-        jPanel2.add(textTelefone);
-        textTelefone.setBounds(260, 140, 240, 30);
-
-        telefone.setText("Telefone:");
-        jPanel2.add(telefone);
-        telefone.setBounds(260, 120, 230, 16);
+        textEmail.setBounds(20, 140, 310, 30);
 
         jListDeespecialidades.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -236,98 +230,73 @@ public class MedicoDialog extends javax.swing.JDialog {
         jScrollEspecialidadesDoMedico.setViewportView(jListDeEspecialidadesDoMedico);
 
         jPanel2.add(jScrollEspecialidadesDoMedico);
-        jScrollEspecialidadesDoMedico.setBounds(250, 230, 210, 190);
+        jScrollEspecialidadesDoMedico.setBounds(360, 230, 210, 190);
 
         listaDeEspecialidades.setText("Lista De Especialidades");
         jPanel2.add(listaDeEspecialidades);
         listaDeEspecialidades.setBounds(30, 210, 140, 16);
 
+        dataDeNacimentoTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        jPanel2.add(dataDeNacimentoTextField);
+        dataDeNacimentoTextField.setBounds(410, 140, 140, 28);
+
+        buttonDireita.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/senai/sp/jandira/imagens/direita.png"))); // NOI18N
+        buttonDireita.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDireitaActionPerformed(evt);
+            }
+        });
+        jPanel2.add(buttonDireita);
+        buttonDireita.setBounds(270, 240, 60, 60);
+
+        buttonEsquerda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/senai/sp/jandira/imagens/esquerda.png"))); // NOI18N
+        jPanel2.add(buttonEsquerda);
+        buttonEsquerda.setBounds(270, 320, 60, 60);
+
         getContentPane().add(jPanel2);
         jPanel2.setBounds(10, 60, 790, 450);
 
-        pack();
+        setBounds(0, 0, 826, 578);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void textDataDeNacimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textDataDeNacimentoActionPerformed
-
-    }//GEN-LAST:event_textDataDeNacimentoActionPerformed
 
     private void buttonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelarActionPerformed
         dispose();
     }//GEN-LAST:event_buttonCancelarActionPerformed
 
     private void buttonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSalvarActionPerformed
+         if (tipoOperacao == TipoOperacao.ADICIONAR) {
+            gravar();
 
-//        if (TipoOperacao == TipoOperacao.ADICIONAR) {
-//            gravar();
-//
-//        } else {
-//            atualizar();
-//        }
+        } else {
+            atualizar();
+        }
+
     }//GEN-LAST:event_buttonSalvarActionPerformed
 
     private void textNomeDoMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textNomeDoMedicoActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_textNomeDoMedicoActionPerformed
 
     private void textEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textEmailActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_textEmailActionPerformed
 
-    private void textTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textTelefoneActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textTelefoneActionPerformed
-
     private void textCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCodigoActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_textCodigoActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MedicoDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MedicoDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MedicoDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MedicoDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void buttonDireitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDireitaActionPerformed
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                MedicoDialog dialog = new MedicoDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+    }//GEN-LAST:event_buttonDireitaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonCancelar;
+    private javax.swing.JButton buttonDireita;
+    private javax.swing.JButton buttonEsquerda;
     private javax.swing.JButton buttonSalvar;
     private javax.swing.JLabel dataDeNacimento;
+    private javax.swing.JFormattedTextField dataDeNacimentoTextField;
     private javax.swing.JLabel email;
     private javax.swing.JPanel jEspecialidade;
     private javax.swing.JLabel jLabelCRM;
@@ -341,12 +310,9 @@ public class MedicoDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jlabelTitulo;
     private javax.swing.JLabel listaDeEspecialidades;
     private javax.swing.JLabel listaDeEspecialidadesDoMedico;
-    private javax.swing.JLabel telefone;
     private javax.swing.JTextField textCRM;
     private javax.swing.JTextField textCodigo;
-    private javax.swing.JTextField textDataDeNacimento;
     private javax.swing.JTextField textEmail;
     private javax.swing.JTextField textNomeDoMedico;
-    private javax.swing.JTextField textTelefone;
     // End of variables declaration//GEN-END:variables
 }

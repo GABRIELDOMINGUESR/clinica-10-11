@@ -49,10 +49,10 @@ public class EspecialdadaDAO { // Simular nosso banco de dados
 
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(
-                    null, 
-                    "Houve um problema au abrir o arquivo", 
-                    "Erro ao gravar", 
-                     JOptionPane.ERROR_MESSAGE);
+                    null,
+                    "Houve um problema au abrir o arquivo",
+                    "Erro ao gravar",
+                    JOptionPane.ERROR_MESSAGE);
         }
 
     }
@@ -91,7 +91,7 @@ public class EspecialdadaDAO { // Simular nosso banco de dados
 
             //renomear arquivo TEMP
             arquivoTemp.renameTo(arquivoAtual);
-            
+
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(
                     null,
@@ -142,7 +142,11 @@ public class EspecialdadaDAO { // Simular nosso banco de dados
             bw.close();
 
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Houve um problema au abrir o arquivo", "Erro ao gravar", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                    null, 
+                    "Houve um problema au abrir o arquivo", 
+                    "Erro ao gravar", 
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -176,18 +180,22 @@ public class EspecialdadaDAO { // Simular nosso banco de dados
 
             while (linha != null && !linha.isEmpty()) {
                 String[] linhaVetor = linha.split(";");
-                Especialidade novoPlanodeSaude = new Especialidade(
+                Especialidade novoEspecialidade = new Especialidade(
                         Integer.valueOf(linhaVetor[0]),
                         linhaVetor[1],
                         linhaVetor[2]);
-                especialidades.add(novoPlanodeSaude);
+                especialidades.add(novoEspecialidade);
                 linha = br.readLine();
 
             }
             br.close();
 
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Ocorreu um Erro ao ler o arquivo", "Erro de leitura", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Ocorreu um Erro ao ler o arquivo",
+                    "Erro de leitura",
+                    JOptionPane.ERROR_MESSAGE);
         }
 
     }

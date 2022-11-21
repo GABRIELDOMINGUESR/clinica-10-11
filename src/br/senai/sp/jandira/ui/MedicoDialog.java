@@ -4,13 +4,12 @@ import br.senai.sp.jandira.dao.MedicoDAO;
 import br.senai.sp.jandira.model.Medico;
 import br.senai.sp.jandira.model.TipoOperacao;
 import java.time.LocalDate;
-import java.time.temporal.TemporalQueries;
 import javax.swing.JOptionPane;
 
 public class MedicoDialog extends javax.swing.JDialog {
     
     private TipoOperacao tipoOperacao;
-    private Medico medico;
+    private Medico medico ;
 
     public MedicoDialog(java.awt.Frame parent,
             boolean modal,
@@ -24,7 +23,7 @@ public class MedicoDialog extends javax.swing.JDialog {
 
     private void atualizar() {
 
-        
+        Medico medico = new Medico();
         medico.setCrm(textCRM.getText());
         medico.setNome(textNomeDoMedico.getText());
         medico.setEmail(textEmail.getText());
@@ -34,7 +33,7 @@ public class MedicoDialog extends javax.swing.JDialog {
             
             JOptionPane.showMessageDialog(
                     null, 
-                    "Médico atualizado com sucesso", 
+                    "Médico adicionado com sucesso", 
                     "Médico", 
                     JOptionPane.INFORMATION_MESSAGE);
             dispose();

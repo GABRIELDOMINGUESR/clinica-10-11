@@ -128,7 +128,7 @@ public class MedicoDAO extends Pessoa {
         return medicos;
     }
 
-    public static void gravarPlanoDeSaude(Medico medico) {
+    public static void gravarMedico (Medico medico) {
         medicos.add(medico);
         try {
             //GRAVAR PLANO DE SAUDE EM ARQUIVO
@@ -186,11 +186,11 @@ public class MedicoDAO extends Pessoa {
 
             while (linha != null && !linha.isEmpty()) {
                 String[] linhaVetor = linha.split(";");
-                Medico novomeMedico = new Medico(
+                Medico novoMedico = new Medico(
                         Integer.valueOf(linhaVetor[0]),
                         linhaVetor[1],
                         linhaVetor[2]);
-                medicos.add(novomeMedico);
+                medicos.add(novoMedico);
                 linha = br.readLine();
 
             }

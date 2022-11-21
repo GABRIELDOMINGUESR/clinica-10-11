@@ -64,6 +64,7 @@ public class MedicoDAO extends Pessoa {
                 medicos.remove(m);
                 break;
             }
+           
         }
         //reconstruir arquivo atulizado sem o plano removido
 

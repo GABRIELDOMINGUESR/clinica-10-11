@@ -1,9 +1,7 @@
 package br.senai.sp.jandira.ui;
 
 import br.senai.sp.jandira.model.TipoOperacao;
-import br.senai.sp.jandira.model.Medico;
 import br.senai.sp.jandira.dao.MedicoDAO;
-import br.senai.sp.jandira.model.Pessoa;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
@@ -26,7 +24,7 @@ public class MedicoPanel extends javax.swing.JPanel {
 
         if (resposta == 0) {
            MedicoDAO.excluir(getCodigo());
-           criarTabelaMedico();
+            criarTabelaMedico();
         }
 
     }
@@ -108,7 +106,11 @@ public class MedicoPanel extends javax.swing.JPanel {
     private void buttonAdicionarMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAdicionarMedicoActionPerformed
 
         
-        MedicoDialog medicoDialog = new MedicoDialog(null, true, TipoOperacao.ADICIONAR, null);
+        MedicoDialog medicoDialog = new MedicoDialog(
+                null, 
+                true, 
+                TipoOperacao.ADICIONAR, 
+                null);
         
         medicoDialog.setVisible(true);
         criarTabelaMedico();
@@ -172,7 +174,8 @@ public class MedicoPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane scrollTableMedico;
     private javax.swing.JTable tableMedico;
     // End of variables declaration//GEN-END:variables
-private void criarTabelaMedico() {
+
+    private void criarTabelaMedico() {
 
         tableMedico.setModel(MedicoDAO.getTableModel());
 

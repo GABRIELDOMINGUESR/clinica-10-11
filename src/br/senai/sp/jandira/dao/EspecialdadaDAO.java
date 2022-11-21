@@ -116,7 +116,8 @@ public class EspecialdadaDAO { // Simular nosso banco de dados
     public static void atualizar(Especialidade especialidade) {
         for (Especialidade e : especialidades) {
             if (e.getCodigo().equals(especialidade.getCodigo())) {
-                especialidades.set(especialidades.indexOf(e), especialidade);
+                especialidades.set(especialidades.indexOf(e), 
+                        especialidade);
                 break;
             }
         }

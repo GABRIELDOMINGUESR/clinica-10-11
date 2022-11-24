@@ -7,94 +7,47 @@ import java.time.LocalDate;
 import javax.swing.JOptionPane;
 
 public class MedicoDialog extends javax.swing.JDialog {
-    
-    private TipoOperacao tipoOperacao;
-    private Medico medico ;
 
-    public MedicoDialog(java.awt.Frame parent,
+    private TipoOperacao tipoOperacao;
+    private Medico medico;
+
+    public MedicoDialog(
+            java.awt.Frame parent,
             boolean modal,
             TipoOperacao tipoOperacao,
             Medico medico) {
+
         super(parent, modal);
         initComponents();
         this.medico = medico;
+        this.tipoOperacao = tipoOperacao;
+
+        if (tipoOperacao == TipoOperacao.ALTERAR) {
+            preencherFormulario();
+
+        }
 
     }
 
-    private void atualizar() {
-
-        Medico medico = new Medico();
-        medico.setCrm(textCRM.getText());
-        medico.setNome(textNomeDoMedico.getText());
-        medico.setEmail(textEmail.getText());
+    private void preencherFormulario() {
+        jlabelTitulo.setText("medico -" + tipoOperacao);
+        jlabelTitulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/senai/sp/jandira/imagens/edit32.png")));
+        textCodigo.setText(medico.getCodigo().toString());
+        textNomeDoMedico.setText(medico.getNome());
+        textCRM.setText(medico.getCrm());
+        textEmail.setText(medico.getEmail());
+        dataDeNacimentoTextField.setText(medico.getTelefone());
         
-        if (validarCadastro()) {
-            MedicoDAO.atualizar(medico);
-            
-            JOptionPane.showMessageDialog(
-                    null, 
-                    "Médico adicionado com sucesso", 
-                    "Médico", 
-                    JOptionPane.INFORMATION_MESSAGE);
-            dispose();
-        }
-
+//         tituloLabel.setText("Medico - " + tipoOperacao);
+//        LabelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/senai/sp/jandira/img/edit.png")));
+//        textFieldCodigo.setText(medico.getCodigo().toString());
+//        textFieldNomeDoMedico.setText(medico.getNome());
+//        textFieldCrm.setText(medico.getCrm());
+//        formattedTextFieldDataDeNascimento.setText(medico.getDataNascimentoComBarra());
+//        textFieldEmail.setText(medico.getEmail());
+//        textFieldTelefone.setText(medico.getTelefone());
     }
 
-    private void gravar() {
-        // Criar um objeto Plano de Saúde
-        Medico medico = new Medico();
-        medico.setNome(textNomeDoMedico.getText());
-        medico.setCrm(textCRM.getText());
-        medico.setEmail(textEmail.getText());
-        medico.setDataDeNascimento( LocalDate.parse(dataDeNacimentoTextField.getText()));
-
-        if (validarCadastro()) {
-            MedicoDAO.gravar(medico);
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Médico gravado com sucesso!",
-                    "Médico",
-                    JOptionPane.INFORMATION_MESSAGE);
-
-            dispose();
-        }
-    }
-
-    private boolean validarCadastro() {
-
-        if (textNomeDoMedico.getText().isEmpty()) {
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Por favor preencha o nome do(a) médico(a)!!!",
-                    "Médico",
-                    JOptionPane.ERROR_MESSAGE);
-
-            textNomeDoMedico.requestFocus();
-
-            return false;
-
-        }
-
-        if (textCRM.getText().isEmpty()) {
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Por favor preencha o crm!",
-                    "Médico",
-                    JOptionPane.ERROR_MESSAGE);
-
-            textCRM.requestFocus();
-
-            return false;
-
-        }
-
-        return true;
-
-    }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -263,7 +216,7 @@ public class MedicoDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_buttonCancelarActionPerformed
 
     private void buttonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSalvarActionPerformed
-         if (tipoOperacao == TipoOperacao.ADICIONAR) {
+        if (tipoOperacao == TipoOperacao.ADICIONAR) {
             gravar();
 
         } else {
@@ -287,7 +240,89 @@ public class MedicoDialog extends javax.swing.JDialog {
     private void buttonDireitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDireitaActionPerformed
 
     }//GEN-LAST:event_buttonDireitaActionPerformed
+    private void atualizar(){
+        if(validarCadastro()){
+        medico.setNome(textNomeDoMedico.getText());
+        medico.setCrm(textCRM.getText());
+        MedicoDAO.atualizar(medico);
+        JOptionPane.showMessageDialog(
+                    this,
+                    "Especialidade atualizada com sucesso!",
+                    "Especialidade",
+                    JOptionPane.INFORMATION_MESSAGE);
+        dispose();
+        }
+    }
 
+    private void gravar() {
+        // Criar um objeto Plano de Saúde
+        Medico medico = new Medico();
+        medico.setNome(textNomeDoMedico.getText());
+        medico.setCrm(textCRM.getText());
+        medico.setEmail(textEmail.getText());
+        medico.setDataDeNascimento(LocalDate.parse(dataDeNacimentoTextField.getText()));
+
+        if (validarCadastro()) {
+            MedicoDAO.gravar(medico);
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Médico gravado com sucesso!",
+                    "Médico",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+            dispose();
+        }
+    }
+
+     private boolean validarCadastro() {
+        if (textNomeDoMedico.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Por favor preencha o nome do(a) medico(a)!",
+                    "Medico",
+                    JOptionPane.ERROR_MESSAGE);
+            textNomeDoMedico.requestFocus();
+            return false;
+        }
+        if (textCRM.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Por favor preencha o CRM!",
+                    "Medico",
+                    JOptionPane.ERROR_MESSAGE);
+            textCRM.requestFocus();
+            return false;
+        }
+        if (textEmail.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Por favor preencha o E-mail!",
+                    "Medico",
+                    JOptionPane.ERROR_MESSAGE);
+            textEmail.requestFocus();
+            return false;
+        }
+//        if (textTelefone.getText().isEmpty()) {
+//            JOptionPane.showMessageDialog(
+//                    this,
+//                    "Por favor preencha o Telefone!",
+//                    "Medico",
+//                    JOptionPane.ERROR_MESSAGE);
+//            textFieldTelefone.requestFocus();
+//            return false;
+//        }
+        if (dataDeNacimentoTextField.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Por favor preencha a data de nascimeto!",
+                    "Medico",
+                    JOptionPane.ERROR_MESSAGE);
+            dataDeNacimentoTextField.requestFocus();
+            return false;
+        }
+        return true;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonCancelar;
@@ -314,4 +349,12 @@ public class MedicoDialog extends javax.swing.JDialog {
     private javax.swing.JTextField textEmail;
     private javax.swing.JTextField textNomeDoMedico;
     // End of variables declaration//GEN-END:variables
+private LocalDate dataCorreta(){
+        String[] data = dataDeNacimentoTextField.getText().split("/");
+        
+        return LocalDate.of(Integer.parseInt(data[2]), Integer.parseInt(data[1]), Integer.parseInt(data[0]));
+        
+    }
+
+
 }

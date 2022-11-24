@@ -2,9 +2,7 @@ package br.senai.sp.jandira.ui;
 
 import br.senai.sp.jandira.dao.EspecialdadaDAO;
 import br.senai.sp.jandira.model.Especialidade;
-import br.senai.sp.jandira.model.Especialidade;
 import br.senai.sp.jandira.model.TipoOperacao;
-import java.awt.Label;
 import javax.swing.JOptionPane;
 
 public class EspecialidadeDialog extends javax.swing.JDialog {

@@ -33,12 +33,19 @@ public class Pessoa {
         this.email = email;
     }
 
-    public LocalDate getDataDeNascimento() {
+     public LocalDate getDataNascimento() {
         return dataDeNascimento;
     }
 
     public void setDataDeNascimento(LocalDate dataDeNascimento) {
         this.dataDeNascimento = dataDeNascimento;
+    }
+     
+    public String getDataNascimentoComBarra() {
+        
+        String[] separado =  dataDeNascimento.toString().split("-");
+        String dataCerta = separado[2] + "/" + separado[1] + "/" + separado[0];
+        return dataCerta;
     }
    
 }

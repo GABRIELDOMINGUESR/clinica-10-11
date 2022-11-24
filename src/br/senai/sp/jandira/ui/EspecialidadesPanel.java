@@ -171,8 +171,8 @@ public class EspecialidadesPanel extends javax.swing.JPanel {
                 null);
 
         especialidadeDialog.setVisible(true);
-
         criarTabelaEspecialidade();
+        
     }//GEN-LAST:event_buttonAdicionarEspecialdadeActionPerformed
 
 

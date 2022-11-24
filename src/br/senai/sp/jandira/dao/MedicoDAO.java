@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.dao;
 
+import br.senai.sp.jandira.model.Especialidade;
 import br.senai.sp.jandira.model.Pessoa;
 import br.senai.sp.jandira.model.Medico;
 import java.io.BufferedReader;
@@ -10,11 +11,20 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class MedicoDAO extends Pessoa {
+public class MedicoDAO {
+
+    private static Medico Medico(Integer valueOf, String string, String string0, String string1, String string2, LocalDate dataDeNascimento, ArrayList<Especialidade> especialidades) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public static void lerListaDeMedicos() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
     private Medico medico;
     private static ArrayList<Medico> medicos = new ArrayList<>();
@@ -34,7 +44,7 @@ public class MedicoDAO extends Pessoa {
     }
 
     public static void gravar(Medico medico) {
-        medicos.add(medico);
+        
         try {
             //GRAVAR PLANO DE SAUDE EM ARQUIVO
             BufferedWriter bw = Files.newBufferedWriter(
@@ -43,8 +53,7 @@ public class MedicoDAO extends Pessoa {
                     StandardOpenOption.WRITE);
 
             String novoplanodeSaude = medico.getMedicoSeparadoPorPontoEVirgula();
-
-            bw.write(novoplanodeSaude);
+            bw.write(medico.getMedicoSeparadoPorPontoEVirgula());
             bw.newLine();
             bw.close();
 
@@ -55,6 +64,7 @@ public class MedicoDAO extends Pessoa {
                     "Erro ao gravar",
                     JOptionPane.ERROR_MESSAGE);
         }
+        medicos.add(medico);
 
     }
 
@@ -64,7 +74,7 @@ public class MedicoDAO extends Pessoa {
                 medicos.remove(m);
                 break;
             }
-           
+
         }
         //reconstruir arquivo atulizado sem o plano removido
 
@@ -115,21 +125,56 @@ public class MedicoDAO extends Pessoa {
         return null;
     }
 
+    private static void atualizarArquivo() {
+        //reconstruir um arquivo atualizado
+
+        //Passo 01 - Criar uma representação dos arquivos que vão ser manipulados
+        File arquivoAtual = new File(ARQUIVO);
+        File arquivoTemp = new File(ARQUIVO_TEMP);
+
+        try {
+            //criar arquivo temporário
+            arquivoTemp.createNewFile();
+            //abre o arquivo para escrita
+            BufferedWriter bwTemp = Files.newBufferedWriter(
+                    PATH_TEMP,
+                    StandardOpenOption.APPEND,
+                    StandardOpenOption.WRITE);
+
+            for (Medico m : medicos) {
+                bwTemp.write(m.getMedicoSeparadoPorPontoEVirgula());
+                bwTemp.newLine();
+            }
+            bwTemp.close();
+            arquivoAtual.delete();
+            arquivoTemp.renameTo(arquivoAtual);
+
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Ocorreu um erro na hora de criar o arquivo!",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+
+        }
+    }
+
     public static void atualizar(Medico medico) {
         for (Medico m : medicos) {
-           if (m.getCodigo().equals(medico.getCodigo())) {
-                medicos.set(medicos.indexOf(m),
-                        medico);
+            if (m.getCodigo().equals(medico.getCodigo())) {
+                medicos.set(medicos.indexOf(m), medico);
                 break;
             }
+            atualizarArquivo();
         }
+
     }
 
     public static ArrayList<Medico> listarTodos() {
         return medicos;
     }
 
-    public static void gravarMedico (Medico medico) {
+    public static void gravarMedico(Medico medico) {
         medicos.add(medico);
         try {
             //GRAVAR PLANO DE SAUDE EM ARQUIVO
@@ -155,56 +200,60 @@ public class MedicoDAO extends Pessoa {
     }
 
     public static DefaultTableModel getTableModel() {
-        // Matriz que receberá os planos de saúde
-        // que serão utilizados na Tabela (JTable)
-        Object[][] dados = new Object[medicos.size()][3];
-        // For Each, para extrair cada objeto plano de saúde do
-        // arraylist planos e separar cada dado na matriz dados
+        // Matriz receberá os planos de saúde
+        //que serão usados na tabela (JTable)
+        Object[][] dados = new Object[medicos.size()][4];
+
+        // For Each, para extrair cada objeto plano de saúde
+        // arrayList planos e separar cada dado na matriz dados
         int i = 0;
         for (Medico m : medicos) {
             dados[i][0] = m.getCodigo();
-            dados[i][1] = m.getNome();
-            dados[i][2] = m.getCrm();
-          
+            dados[i][1] = m.getCrm();
+            dados[i][2] = m.getNome();
+            dados[i][3] = m.getTelefone();
             i++;
         }
-        // Definir um vetor com os nomes das colulas da tabela
-        String[] titulos = {"Código", "CRM", "Médico"};
-        // Criar o modelo que será utilizado pela JTable 
-        // para exibir os dados dos planos
-        DefaultTableModel tableModel = new DefaultTableModel(
-                dados,
-                titulos);
+        // Definir o vetor com os nomes das tabelas
+        String[] titulos = {"Código", "CRM", "Nome do Medico", "Telefone"};
 
+        // Criar o modelo que será utilizado pelo JTabel
+        // para exibir os dados dos planos
+        DefaultTableModel tableModel = new DefaultTableModel(dados, titulos);
         return tableModel;
+
     }
 
-    public static void lerListaDeMedicos() {
-        try {
+     public static void getListaMedicos(){
+        try {     
             BufferedReader br = Files.newBufferedReader(PATH);
-
-            String linha = br.readLine();
-
-            while (linha != null && !linha.isEmpty()) {
-                String[] linhaVetor = linha.split(";");
-                Medico novoMedico = new Medico(
-                        Integer.valueOf(linhaVetor[0]),
-                        linhaVetor[1],
-                        linhaVetor[2]);
-                medicos.add(novoMedico);
-                linha = br.readLine();
-
+            String linha = "";
+            linha = br.readLine();
+            while(linha != null && !linha.isEmpty()){
+                String[] linhavetor = linha.split(";");
+                
+                int i = 0;
+                ArrayList<Especialidade> especialidades = new ArrayList<>();
+                while(linhavetor.length > i +6){
+                   especialidades.add(EspecialdadaDAO.getEspecialidade(Integer.valueOf(linhavetor[6+i])));
+                   i++;
+                }
+                
+                String[] data = linhavetor[5].split("/");
+                int ano = Integer.parseInt(data[2]);
+                int mes = Integer.parseInt(data[1]);
+                int dia = Integer.parseInt(data[0]);
+                LocalDate dataDeNascimento = LocalDate.of(ano,mes, dia);
+                
+             Medico m = Medico(Integer.valueOf(linhavetor[0]), linhavetor[1], linhavetor[2], linhavetor[3], linhavetor[4], dataDeNascimento, especialidades);
+                    
             }
             br.close();
-
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Ocorreu um Erro ao ler o arquivo",
-                    "Erro de leitura",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "DEU MERDA!!!");
         }
+        
 
-    }
+   }
 
 }

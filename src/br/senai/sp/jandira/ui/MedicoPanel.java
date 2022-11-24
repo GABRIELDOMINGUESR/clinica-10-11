@@ -2,6 +2,7 @@ package br.senai.sp.jandira.ui;
 
 import br.senai.sp.jandira.model.TipoOperacao;
 import br.senai.sp.jandira.dao.MedicoDAO;
+import br.senai.sp.jandira.model.Medico;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
@@ -28,7 +29,26 @@ public class MedicoPanel extends javax.swing.JPanel {
         }
 
     }
+    private void editar() {
+        Medico medico = MedicoDAO.getMedico(getCodigo());
 
+        MedicoDialog medicoDialog = new MedicoDialog(
+                null,
+                true,
+                TipoOperacao.ALTERAR,
+                medico);
+
+        medicoDialog.setVisible(true);
+
+        criarTabelaMedico();
+    }
+    
+      private Integer getCodigo() {
+        String codigoStr = tableMedico.getValueAt(linha, 0).toString();
+        return Integer.valueOf(codigoStr);
+
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -49,7 +69,7 @@ public class MedicoPanel extends javax.swing.JPanel {
 
         medicoTexto.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         medicoTexto.setForeground(new java.awt.Color(102, 0, 102));
-        medicoTexto.setText("Especialidade");
+        medicoTexto.setText("Médico");
         jPanelmedico.add(medicoTexto);
         medicoTexto.setBounds(20, 10, 180, 20);
 
@@ -134,14 +154,7 @@ public class MedicoPanel extends javax.swing.JPanel {
 
         criarTabelaMedico();
 
-    }
-        
-
-    
-
-    private Integer getCodigo() {
-        String codigoStr = tableMedico.getValueAt(linha, 0).toString();
-        return null;
+   
 
 
     }//GEN-LAST:event_buttonAlterarMedicoActionPerformed
@@ -175,8 +188,7 @@ public class MedicoPanel extends javax.swing.JPanel {
     private javax.swing.JTable tableMedico;
     // End of variables declaration//GEN-END:variables
 
-    private void criarTabelaMedico() {
-
+      private void criarTabelaMedico() {
         tableMedico.setModel(MedicoDAO.getTableModel());
 
         // Desativar o redimensionamento da JTable
@@ -186,6 +198,8 @@ public class MedicoPanel extends javax.swing.JPanel {
         tableMedico.getColumnModel().getColumn(0).setPreferredWidth(100);
         tableMedico.getColumnModel().getColumn(1).setPreferredWidth(300);
         tableMedico.getColumnModel().getColumn(2).setPreferredWidth(300);
+        tableMedico.getColumnModel().getColumn(3).setPreferredWidth(202);
+        
 
         // Impedir/bloquear a movimentação das colunas
         tableMedico.getTableHeader().setReorderingAllowed(false);

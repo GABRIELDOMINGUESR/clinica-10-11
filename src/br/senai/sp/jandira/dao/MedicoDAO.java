@@ -18,13 +18,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class MedicoDAO {
 
-    private static Medico Medico(Integer valueOf, String string, String string0, String string1, String string2, LocalDate dataDeNascimento, ArrayList<Especialidade> especialidades) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public static void lerListaDeMedicos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    
 
     private Medico medico;
     private static ArrayList<Medico> medicos = new ArrayList<>();
@@ -212,6 +206,8 @@ public class MedicoDAO {
             dados[i][1] = m.getCrm();
             dados[i][2] = m.getNome();
             dados[i][3] = m.getTelefone();
+            
+            
             i++;
         }
         // Definir o vetor com os nomes das tabelas
@@ -245,8 +241,9 @@ public class MedicoDAO {
                 int dia = Integer.parseInt(data[0]);
                 LocalDate dataDeNascimento = LocalDate.of(ano,mes, dia);
                 
-             Medico m = Medico(Integer.valueOf(linhavetor[0]), linhavetor[1], linhavetor[2], linhavetor[3], linhavetor[4], dataDeNascimento, especialidades);
-                    
+             Medico m = new Medico(Integer.valueOf(linhavetor[0]), linhavetor[1], linhavetor[2], linhavetor[3], linhavetor[4], dataDeNascimento, especialidades);
+             medicos.add(m);
+             linha = br.readLine();
             }
             br.close();
         } catch (IOException ex) {

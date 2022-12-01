@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -200,4 +201,16 @@ public class EspecialdadaDAO { // Simular nosso banco de dados
         }
 
     }
+     public static ArrayList<String> getListaDeNomes() {
+        ArrayList<String> dados = new ArrayList<>();
+        for (Especialidade e : especialidades) {
+            dados.add(e.getNome());
+        }
+         DefaultListModel<String> ListaModel = new DefaultListModel<>();
+        
+        ListaModel.addAll(dados);
+        
+        return dados;
+
+        }
 }

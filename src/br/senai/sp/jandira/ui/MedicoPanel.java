@@ -30,18 +30,13 @@ public class MedicoPanel extends javax.swing.JPanel {
 
     }
     private void editar() {
+
         Medico medico = MedicoDAO.getMedico(getCodigo());
-
-        MedicoDialog medicoDialog = new MedicoDialog(
-                null,
-                true,
-                TipoOperacao.ALTERAR,
-                medico);
-
-        medicoDialog.setVisible(true);
-
+        MedicoDialog dialogMedico = new MedicoDialog(null, true, TipoOperacao.ALTERAR, medico);
+        dialogMedico.setVisible(true);
         criarTabelaMedico();
     }
+
     
       private Integer getCodigo() {
         String codigoStr = tableMedico.getValueAt(linha, 0).toString();
@@ -142,8 +137,7 @@ public class MedicoPanel extends javax.swing.JPanel {
     private void buttonAlterarMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAlterarMedicoActionPerformed
         linha = tableMedico.getSelectedRow();
         if (linha != -1) {
-            
-
+            editar();
         } else {
             JOptionPane.showMessageDialog(
                     this,
